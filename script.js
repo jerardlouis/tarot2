@@ -23,7 +23,39 @@ document.addEventListener('DOMContentLoaded', function() {
     const saveReadingButton = document.getElementById('save-reading');
     const shareReadingButton = document.getElementById('share-reading');
     
-    // Event Listeners for reading type selection
+    // Gothic reading type names
+    const gothicTypeNames = {
+        love: "Heart's Shadow",
+        career: "Path of Ambition", 
+        future: "Veil of Fate",
+        general: "Shadow Guidance"
+    };
+    
+    // Gothic interpretations
+    const gothicInterpretations = {
+        love: [
+            "The cards whisper of heart's mysteries untold. In the shadow of affection, truth awaits discovery. The path of love winds through darkness and light alike. What binds souls may also set them free.",
+            "Veiled emotions stir in the chambers of the heart. The tarot reveals connections that transcend mere flesh and blood. Passion's fire burns bright, yet leaves ashes in its wake.",
+            "Affection's shadow falls across your path. The cards speak of bonds that defy reason and challenges that test the spirit. In vulnerability lies true strength."
+        ],
+        career: [
+            "Ambition's path winds through shadows of uncertainty. The cards reveal hidden opportunities and unseen obstacles. Your professional journey is marked by both triumph and trial.",
+            "In the labyrinth of ambition, the tarot illuminates hidden passages. Success may come through unconventional means. Beware false allies who wear masks of friendship.",
+            "The cards speak of power struggles and hard-won victories. Your career path is marked by both conquest and sacrifice. True mastery comes from embracing both shadow and light."
+        ],
+        future: [
+            "The veil parts to reveal glimpses of destiny's design. The future is not fixed but shaped by choice and chance. What awaits is a tapestry woven from threads of possibility.",
+            "Fate's shadows shift and dance. The tarot shows paths diverging in darkness. Your choices now echo through time's corridors. Nothing is inevitable save change itself.",
+            "Beyond the curtain of the present, possibilities shimmer like stars in a moonless sky. The cards suggest transformation awaits - a metamorphosis of spirit or circumstance."
+        ],
+        general: [
+            "The ancient ones speak through the cards' whispers. Shadows shift, revealing patterns in the darkness. Your journey is watched by unseen eyes.",
+            "In the stillness between breaths, the tarot reveals its truths. The present moment holds echoes of the past and seeds of the future. All is interconnected.",
+            "The cards cast light upon your shadowed path. Wisdom comes not from avoiding darkness, but from learning to see within it. The journey continues."
+        ]
+    };
+    
+    // Event Listeners
     readingOptions.forEach(option => {
         option.addEventListener('click', function() {
             const type = this.dataset.type;
@@ -39,35 +71,107 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Get reading button
     getReadingButton.addEventListener('click', function() {
         if (!selectedReadingType) {
-            alert('Please select a reading type first!');
+            showGothicAlert('Choose your path first, seeker.');
             return;
         }
         
         generateReading();
     });
     
-    // Reset button
     resetButton.addEventListener('click', function() {
         resetApp();
     });
     
-    // New reading button
     newReadingButton.addEventListener('click', function() {
         resetApp();
     });
     
-    // Save reading button
     saveReadingButton.addEventListener('click', function() {
         saveReading();
     });
     
-    // Share reading button
     shareReadingButton.addEventListener('click', function() {
         shareReading();
     });
+    
+    // Gothic alert function
+    function showGothicAlert(message) {
+        // Create a gothic-style alert
+        const alertDiv = document.createElement('div');
+        alertDiv.className = 'gothic-alert';
+        alertDiv.innerHTML = `
+            <div class="alert-content">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>${message}</p>
+                <button class="alert-close">×</button>
+            </div>
+        `;
+        
+        document.body.appendChild(alertDiv);
+        
+        // Add styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .gothic-alert {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(145deg, var(--dark-gray), var(--black));
+                border: 2px solid var(--blood-red);
+                padding: 1.5rem;
+                z-index: 1000;
+                box-shadow: var(--glow);
+                animation: slideIn 0.3s ease;
+                max-width: 300px;
+            }
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            .alert-content {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                color: var(--white);
+            }
+            .alert-content i {
+                color: var(--blood-red);
+                font-size: 1.5rem;
+            }
+            .alert-content p {
+                margin: 0;
+                flex-grow: 1;
+            }
+            .alert-close {
+                background: none;
+                border: none;
+                color: var(--silver);
+                font-size: 1.5rem;
+                cursor: pointer;
+                transition: color 0.3s ease;
+            }
+            .alert-close:hover {
+                color: var(--blood-red);
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Auto-remove after 5 seconds
+        setTimeout(() => {
+            if (alertDiv.parentNode) {
+                alertDiv.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => alertDiv.remove(), 300);
+            }
+        }, 5000);
+        
+        // Close button
+        alertDiv.querySelector('.alert-close').addEventListener('click', () => {
+            alertDiv.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => alertDiv.remove(), 300);
+        });
+    }
     
     // Function to select reading type
     function selectReadingType(type) {
@@ -78,6 +182,10 @@ document.addEventListener('DOMContentLoaded', function() {
             option.classList.remove('selected');
             if (option.dataset.type === type) {
                 option.classList.add('selected');
+                // Add a subtle glow effect
+                option.style.boxShadow = '0 0 20px rgba(139, 0, 0, 0.7)';
+            } else {
+                option.style.boxShadow = '';
             }
         });
         
@@ -85,25 +193,14 @@ document.addEventListener('DOMContentLoaded', function() {
             button.classList.remove('selected');
             if (button.dataset.type === type) {
                 button.classList.add('selected');
-                button.textContent = 'Selected';
+                button.innerHTML = `<i class="fas fa-check"></i> Path Chosen`;
             } else {
-                button.textContent = 'Select Reading';
+                button.innerHTML = `Select Path`;
             }
         });
         
         // Update get reading button text
-        getReadingButton.innerHTML = `<i class="fas fa-magic"></i> Get ${getReadingTypeName(type)} Reading`;
-    }
-    
-    // Function to get reading type name
-    function getReadingTypeName(type) {
-        const names = {
-            love: "Love & Relationships",
-            career: "Career & Finances",
-            future: "Future & Destiny",
-            general: "General Guidance"
-        };
-        return names[type] || "Your";
+        getReadingButton.innerHTML = `<i class="fas fa-skull-crossbones"></i> Cast the ${gothicTypeNames[type]} Cards`;
     }
     
     // Function to generate a reading
@@ -112,27 +209,25 @@ document.addEventListener('DOMContentLoaded', function() {
         loadingSection.classList.remove('hidden');
         readingResult.classList.add('hidden');
         
-        // Simulate AI processing time
+        // Add some atmosphere
+        playAmbientSound();
+        
+        // Simulate ritual time
         setTimeout(() => {
             // Generate random cards
             const readingCards = getRandomCards(3);
             
-            // Generate AI interpretation
-            const interpretation = generateInterpretation(readingCards, selectedReadingType);
+            // Generate gothic interpretation
+            const interpretation = generateGothicInterpretation(readingCards, selectedReadingType);
             
             // Create reading object
             currentReading = {
                 type: selectedReadingType,
-                typeName: getReadingTypeName(selectedReadingType),
+                typeName: gothicTypeNames[selectedReadingType],
                 cards: readingCards,
                 interpretation: interpretation,
                 question: customQuestion.value.trim(),
-                date: new Date().toLocaleDateString('en-US', { 
-                    weekday: 'long', 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
-                }),
+                date: getGothicDate(),
                 timestamp: new Date().toISOString()
             };
             
@@ -143,9 +238,52 @@ document.addEventListener('DOMContentLoaded', function() {
             loadingSection.classList.add('hidden');
             readingResult.classList.remove('hidden');
             
+            // Add dramatic entrance effect
+            readingResult.style.opacity = '0';
+            readingResult.style.transform = 'translateY(50px)';
+            
+            setTimeout(() => {
+                readingResult.style.transition = 'all 1s ease';
+                readingResult.style.opacity = '1';
+                readingResult.style.transform = 'translateY(0)';
+            }, 100);
+            
             // Scroll to result
             readingResult.scrollIntoView({ behavior: 'smooth' });
-        }, 2000); // 2 second delay to simulate processing
+            
+            // Stop ambient sound
+            stopAmbientSound();
+        }, 3000); // 3 second ritual time
+    }
+    
+    // Function to get gothic date
+    function getGothicDate() {
+        const now = new Date();
+        const days = ['Shadowday', 'Bloodmoon', 'Crowday', 'Veilday', 'Soulmoon', 'Graveday', 'Duskday'];
+        const months = ['Nightfrost', 'Bloodmoon', 'Shadowveil', 'Gravebloom', 'Deathshroud', 'Soulfire', 'Crowcall', 'Duskfall', 'Boneshard', 'Ghostwind', 'Cryptice', 'Endnight'];
+        
+        return `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+    }
+    
+    // Function to play ambient sound (simulated)
+    function playAmbientSound() {
+        // In a real app, you would play audio
+        // For now, we'll just add a visual effect
+        const candles = document.querySelectorAll('.candle');
+        candles.forEach(candle => {
+            const flame = candle.querySelector('::before');
+            if (flame) {
+                candle.style.animation = 'flicker 0.5s infinite alternate';
+            }
+        });
+    }
+    
+    // Function to stop ambient sound
+    function stopAmbientSound() {
+        const candles = document.querySelectorAll('.candle');
+        candles.forEach(candle => {
+            candle.style.animation = '';
+        });
     }
     
     // Function to get random cards
@@ -167,22 +305,23 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Function to generate AI interpretation
-    function generateInterpretation(cards, type) {
-        const templates = aiInterpretations[type] || aiInterpretations.general;
+    // Function to generate gothic interpretation
+    function generateGothicInterpretation(cards, type) {
+        const templates = gothicInterpretations[type] || gothicInterpretations.general;
         const template = templates[Math.floor(Math.random() * templates.length)];
         
         // Create card summary
+        const positions = ["PAST/SHADOW", "PRESENT/VOID", "FUTURE/ECHO"];
         const cardSummary = cards.map((card, index) => {
-            const position = ["Past/Present", "Present", "Future"][index];
-            return `${position}: ${card.name} (${card.orientation})`;
-        }).join("\n");
+            const position = positions[index];
+            return `✦ ${position}: ${card.name} (${card.orientation})`;
+        }).join('\n');
         
         // Create personalized interpretation
         const questionText = customQuestion.value.trim() ? 
-            `Your question: "${customQuestion.value.trim()}"\n\n` : '';
+            `Your whispered question: "${customQuestion.value.trim()}"\n\n` : '';
         
-        return `${questionText}${template}\n\nCards Drawn:\n${cardSummary}\n\nReflect on how these energies might manifest in your life. The tarot offers guidance, but remember that you hold the power to shape your own destiny.`;
+        return `${questionText}${template}\n\n✧ CARDS REVEALED ✧\n${cardSummary}\n\nRemember, seeker: The cards show possibilities, not certainties. The true power lies in how you walk your shadowed path.`;
     }
     
     // Function to display reading
@@ -194,41 +333,56 @@ document.addEventListener('DOMContentLoaded', function() {
         // Clear previous cards
         cardsContainer.innerHTML = '';
         
-        // Display cards
+        // Display cards with dramatic reveal
         reading.cards.forEach((card, index) => {
-            const cardElement = createCardElement(card, index);
-            cardsContainer.appendChild(cardElement);
+            setTimeout(() => {
+                const cardElement = createGothicCardElement(card, index);
+                cardsContainer.appendChild(cardElement);
+                
+                // Add a subtle glow effect
+                setTimeout(() => {
+                    cardElement.style.boxShadow = '0 0 15px rgba(139, 0, 0, 0.5)';
+                    setTimeout(() => {
+                        cardElement.style.boxShadow = '';
+                    }, 1000);
+                }, 300);
+            }, index * 500);
         });
         
         // Display interpretation
         interpretationText.textContent = reading.interpretation;
     }
     
-    // Function to create card element
-    function createCardElement(card, index) {
-        const positions = ["Past/Present", "Present", "Future"];
-        const position = positions[index] || "Card";
+    // Function to create gothic card element
+    function createGothicCardElement(card, index) {
+        const positions = ["PAST/SHADOW", "PRESENT/VOID", "FUTURE/ECHO"];
+        const position = positions[index] || "MYSTERY";
         
         const cardDiv = document.createElement('div');
         cardDiv.className = 'tarot-card';
         cardDiv.dataset.index = index;
         
-        const symbol = cardSymbols[card.suite] || cardSymbols.major;
+        // Get appropriate symbol
+        let symbol = "★";
+        if (card.suite === "Wands") symbol = "🜂";
+        else if (card.suite === "Cups") symbol = "🜁";
+        else if (card.suite === "Swords") symbol = "🜄";
+        else if (card.suite === "Pentacles") symbol = "🜃";
         
         cardDiv.innerHTML = `
             <div class="card-inner">
                 <div class="card-front">
                     <div class="card-symbol">${symbol}</div>
                     <div class="card-position">${position}</div>
-                    <div class="card-tap">Tap to Reveal</div>
+                    <div class="card-tap">Touch to unveil</div>
                 </div>
                 <div class="card-back">
-                    <div class="card-name">${card.name}</div>
+                    <div class="card-name">${card.name.toUpperCase()}</div>
                     <div class="card-orientation ${card.reversed ? 'reversed' : 'upright'}">
                         ${card.orientation}
                     </div>
-                    <div class="card-interpretation">${card.interpretationText.substring(0, 100)}...</div>
-                    <div class="card-suite">${card.suite}</div>
+                    <div class="card-interpretation">${card.interpretationText.substring(0, 80)}...</div>
+                    <div class="card-suite">${card.suite.toUpperCase()}</div>
                 </div>
             </div>
         `;
@@ -236,12 +390,18 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add click event to flip card
         cardDiv.addEventListener('click', function() {
             this.classList.toggle('flipped');
+            // Add sound effect (in a real app)
+            if (this.classList.contains('flipped')) {
+                this.style.boxShadow = '0 0 20px rgba(139, 0, 0, 0.7)';
+            } else {
+                this.style.boxShadow = '';
+            }
         });
         
-        // Auto-flip after a delay for presentation
+        // Auto-flip after a delay for dramatic effect
         setTimeout(() => {
             cardDiv.classList.add('flipped');
-        }, 500 + (index * 300));
+        }, 1000 + (index * 600));
         
         return cardDiv;
     }
@@ -255,36 +415,41 @@ document.addEventListener('DOMContentLoaded', function() {
             savedAt: new Date().toISOString()
         };
         
-        // In a real app, you would save to a backend
-        // For this demo, we'll save to localStorage
-        const savedReadings = JSON.parse(localStorage.getItem('tarotSavedReadings') || '[]');
+        // Save to localStorage
+        const savedReadings = JSON.parse(localStorage.getItem('tarotGothicReadings') || '[]');
         savedReadings.push(readingData);
-        localStorage.setItem('tarotSavedReadings', JSON.stringify(savedReadings));
+        localStorage.setItem('tarotGothicReadings', JSON.stringify(savedReadings));
         
-        // Show confirmation
-        alert('Reading saved! You can access it later from your browser storage.');
+        // Show gothic confirmation
+        showGothicAlert('Reading preserved in the eternal archives.');
+        
+        // Visual feedback
+        saveReadingButton.innerHTML = `<i class="fas fa-check"></i> Preserved`;
+        setTimeout(() => {
+            saveReadingButton.innerHTML = `<i class="fas fa-tombstone"></i> Preserve Reading`;
+        }, 2000);
     }
     
     // Function to share reading
     function shareReading() {
         if (!currentReading) return;
         
-        // Create shareable text
-        const shareText = `My Tarot Reading (${currentReading.typeName}):\n\n`;
+        // Create gothic shareable text
+        const shareText = `✧ TAROT DIVINATION ✧\n${currentReading.typeName}\n\n`;
         const cardsText = currentReading.cards.map(card => 
-            `• ${card.name} (${card.orientation})`
+            `✦ ${card.name} (${card.orientation})`
         ).join('\n');
         
-        const fullText = `${shareText}${cardsText}\n\n"${currentReading.interpretation.substring(0, 150)}..."\n\nGenerated with TarotAI`;
+        const fullText = `${shareText}${cardsText}\n\n"${currentReading.interpretation.substring(0, 120)}..."\n\n— Generated in the shadowed chambers of TarotAI —`;
         
         // Use Web Share API if available
         if (navigator.share) {
             navigator.share({
-                title: 'My Tarot Reading',
+                title: 'My Tarot Divination',
                 text: fullText,
                 url: window.location.href
             }).catch(err => {
-                console.log('Error sharing:', err);
+                console.log('Sharing failed:', err);
                 copyToClipboard(fullText);
             });
         } else {
@@ -296,10 +461,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to copy text to clipboard
     function copyToClipboard(text) {
         navigator.clipboard.writeText(text).then(() => {
-            alert('Reading copied to clipboard! You can now paste it anywhere.');
+            showGothicAlert('Reading copied to the void. Share wisely.');
+            
+            // Visual feedback
+            shareReadingButton.innerHTML = `<i class="fas fa-check"></i> Copied`;
+            setTimeout(() => {
+                shareReadingButton.innerHTML = `<i class="fas fa-ghost"></i> Share with Shadows`;
+            }, 2000);
         }).catch(err => {
             console.error('Failed to copy: ', err);
-            alert('Failed to copy reading. Please try again.');
+            showGothicAlert('The shadows resist... try again.');
         });
     }
     
@@ -311,11 +482,12 @@ document.addEventListener('DOMContentLoaded', function() {
         // Reset UI
         readingOptions.forEach(option => {
             option.classList.remove('selected');
+            option.style.boxShadow = '';
         });
         
         selectButtons.forEach(button => {
             button.classList.remove('selected');
-            button.textContent = 'Select Reading';
+            button.innerHTML = `Select Path`;
         });
         
         customQuestion.value = '';
@@ -324,10 +496,13 @@ document.addEventListener('DOMContentLoaded', function() {
         cardsContainer.innerHTML = '';
         
         // Reset get reading button
-        getReadingButton.innerHTML = `<i class="fas fa-magic"></i> Get Your Reading`;
+        getReadingButton.innerHTML = `<i class="fas fa-skull-crossbones"></i> Cast the Cards`;
         
-        // Scroll to top
+        // Scroll to top with smooth animation
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // Show reset message
+        showGothicAlert('The circle is cleared. The shadows await new questions.');
     }
     
     // Initialize the app
