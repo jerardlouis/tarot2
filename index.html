@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TarotAI - Free Tarot Reading</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo-container">
+                <div class="logo-animation">
+                    <div class="tarot-card-spin"></div>
+                </div>
+                <h1>Tarot<span class="ai-text">AI</span></h1>
+            </div>
+            <p class="tagline">AI-powered tarot readings for your journey</p>
+        </header>
+
+        <main class="main-content">
+            <section class="intro-section">
+                <p>Welcome to your personal tarot reading experience. Focus on your question and select a reading type below.</p>
+            </section>
+
+            <section class="question-section">
+                <div class="question-input">
+                    <label for="custom-question"><i class="fas fa-question-circle"></i> Your Question (Optional):</label>
+                    <textarea id="custom-question" placeholder="Type your specific question here... (e.g., 'What should I focus on in my career?')"></textarea>
+                </div>
+            </section>
+
+            <section class="reading-options">
+                <h2><i class="fas fa-crystal-ball"></i> Choose Your Reading</h2>
+                <div class="options-grid">
+                    <div class="option-card" data-type="love">
+                        <div class="option-icon heart">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>Love & Relationships</h3>
+                        <p>Insights about romance, partnerships, and emotional connections</p>
+                        <button class="select-btn" data-type="love">Select Reading</button>
+                    </div>
+                    
+                    <div class="option-card" data-type="career">
+                        <div class="option-icon briefcase">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <h3>Career & Finances</h3>
+                        <p>Guidance on work, business, and financial matters</p>
+                        <button class="select-btn" data-type="career">Select Reading</button>
+                    </div>
+                    
+                    <div class="option-card" data-type="future">
+                        <div class="option-icon star">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3>Future & Destiny</h3>
+                        <p>Perspective on your path ahead and life direction</p>
+                        <button class="select-btn" data-type="future">Select Reading</button>
+                    </div>
+                    
+                    <div class="option-card" data-type="general">
+                        <div class="option-icon eye">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3>General Guidance</h3>
+                        <p>Overall insight and spiritual guidance</p>
+                        <button class="select-btn" data-type="general">Select Reading</button>
+                    </div>
+                </div>
+                
+                <div class="action-section">
+                    <button id="get-reading" class="cta-button">
+                        <i class="fas fa-magic"></i> Get Your Reading
+                    </button>
+                    <button id="reset-reading" class="secondary-button">
+                        <i class="fas fa-redo"></i> Start Over
+                    </button>
+                </div>
+            </section>
+
+            <section id="loading-section" class="loading-section hidden">
+                <div class="loading-content">
+                    <div class="spinner"></div>
+                    <h3>Consulting the Cards</h3>
+                    <p>Your tarot reading is being prepared...</p>
+                    <div class="loading-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </section>
+
+            <section id="reading-result" class="reading-result hidden">
+                <div class="reading-header">
+                    <h2><i class="fas fa-scroll"></i> Your Tarot Reading</h2>
+                    <div class="reading-meta">
+                        <span id="reading-type" class="reading-type"></span>
+                        <span id="reading-date" class="reading-date"></span>
+                    </div>
+                </div>
+                
+                <div class="cards-display">
+                    <div id="cards-container" class="cards-container">
+                        <!-- Cards will be dynamically inserted here -->
+                    </div>
+                </div>
+                
+                <div class="interpretation-section">
+                    <h3><i class="fas fa-comment-alt"></i> AI Interpretation</h3>
+                    <div id="interpretation-text" class="interpretation-text">
+                        <!-- Interpretation will be dynamically inserted here -->
+                    </div>
+                </div>
+                
+                <div class="reading-actions">
+                    <button id="save-reading" class="action-button">
+                        <i class="far fa-save"></i> Save Reading
+                    </button>
+                    <button id="share-reading" class="action-button">
+                        <i class="fas fa-share-alt"></i> Share
+                    </button>
+                    <button id="new-reading" class="action-button">
+                        <i class="fas fa-plus"></i> New Reading
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <p>TarotAI &copy; <span id="current-year"></span> | Created with <i class="fas fa-heart"></i> for spiritual guidance</p>
+                <p class="disclaimer">This tool is for entertainment purposes only. Tarot readings are subjective and should not replace professional advice.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Include the tarot data and main script -->
+    <script src="tarot-data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
