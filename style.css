@@ -998,4 +998,138 @@ h1 {
 
 .gothic-action:hover {
     border-color: var(--blood-red);
-    color: var(--blood
+    color: var(--blood-red);
+    transform: translateY(-3px);
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 3rem 0;
+    color: var(--silver);
+    font-size: 0.9rem;
+    border-top: 1px solid var(--light-gray);
+    position: relative;
+}
+
+.footer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--blood-red), transparent);
+}
+
+.footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.gothic-separator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+    color: var(--blood-red);
+    font-size: 1.5rem;
+    letter-spacing: 10px;
+}
+
+.separator-left, .separator-right {
+    animation: pulse 2s infinite;
+}
+
+.separator-middle {
+    animation: pulse 2s infinite reverse;
+}
+
+.disclaimer {
+    font-style: italic;
+    margin: 1.5rem 0;
+    color: var(--silver);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.gothic-social {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    background-color: var(--dark-gray);
+    color: var(--white);
+    border: 2px solid var(--light-gray);
+    border-radius: 0;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+}
+
+.gothic-social:hover {
+    background-color: var(--blood-red);
+    border-color: var(--blood-red);
+    transform: translateY(-5px) rotate(10deg);
+    box-shadow: var(--shadow);
+}
+
+/* Utility Classes */
+.hidden {
+    display: none !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5rem;
+    }
+    
+    .main-content {
+        padding: 1.5rem;
+    }
+    
+    .options-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .action-section {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .gothic-cta, .gothic-secondary {
+        width: 100%;
+        margin-right: 0;
+    }
+    
+    .reading-actions {
+        flex-direction: column;
+    }
+    
+    .gothic-action {
+        justify-content: center;
+    }
+    
+    .tarot-card {
+        width: 140px;
+        height: 210px;
+    }
+    
+    .reading-result {
+        padding: 1.5rem;
+    }
+}
